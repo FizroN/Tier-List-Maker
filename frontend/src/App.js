@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './style.css';
+import TierList from "./TierList";
+import ImageTray from "./ImageTray";
 
 function App() {
+
+  const [images, setImages] = useState([]);
+
+  const handleAddImage = () => {
+    console.log("Clicked + button!");
+    // We'll add upload & crop logic later
+  };
+
   return (
     <div className="body d-flex flex-column min-vh-100">
       <header className="header header_main py-3">
@@ -20,6 +30,14 @@ function App() {
       {/* Body Content */}
       <p style={{ color: 'white' }}>Hello world!</p>
       <div className="flex-grow-1 container"></div>
+
+      <div className="App">
+        <TierList />
+      </div>
+
+      <div className="ImageTray">
+        <ImageTray />
+      </div>
 
       <footer className="footer footer_main py-3">
         <div className="container-fluid d-flex flex-column flex-md-row justify-content-around align-items-center">

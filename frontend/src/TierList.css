@@ -1,0 +1,38 @@
+.tierlist-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 1rem;
+}
+
+.tier-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tier-label {
+  width: 50px;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.tier-content {
+  display: flex;
+  background: #333;
+  border-radius: 8px;
+  padding: 10px;
+  flex: 1;
+  min-height: 100px;
+}
+
+.tier-item {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  margin-right: 10px;
+  border: 2px solid #555;
+  border-radius: 4px;
+  cursor: grab;
+}
