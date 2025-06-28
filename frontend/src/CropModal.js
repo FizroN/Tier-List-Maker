@@ -3,7 +3,7 @@ import Cropper from "react-easy-crop";
 import Modal from "react-modal";
 import getCroppedImg from "./CropImage"; // We'll define this below
 
-Modal.setAppElement("#root");
+//Modal.setAppElement("#root");
 
 const CropModal = ({ imageSrc, isOpen, onClose, onCropComplete }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });

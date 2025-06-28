@@ -1,7 +1,7 @@
-// cropImage.js
 export default function getCroppedImg(imageSrc, croppedAreaPixels) {
   return new Promise((resolve) => {
     const image = new Image();
+    image.crossOrigin = "anonymous"; // important if loading external image URLs
     image.src = imageSrc;
     image.onload = () => {
       const canvas = document.createElement("canvas");
@@ -21,10 +21,8 @@ export default function getCroppedImg(imageSrc, croppedAreaPixels) {
         croppedAreaPixels.height
       );
 
-      canvas.toBlob((blob) => {
-        const fileUrl = URL.createObjectURL(blob);
-        resolve(fileUrl);
-      }, "image/jpeg");
+      const base64Image = canvas.toDataURL("image/jpeg");
+      resolve(base64Image); // return base64 image string
     };
   });
 }

@@ -1,87 +1,136 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDrag, useDrop } from "react-dnd";
 import "./TierList.css";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-// Initial tier structure
-const initialTiers = {
-  S: [],
-  A: [],
-  B: [],
-  C: [],
-};
+const ItemTypes = { IMAGE: "image" };
 
-// Sample images (placeholder URLs for now)
-const initialItems = [
-  { id: "1", url: "https://via.placeholder.com/80?text=1" },
-  { id: "2", url: "https://via.placeholder.com/80?text=2" },
-  { id: "3", url: "https://via.placeholder.com/80?text=3" },
-];
+function TierItem({ src, index, tierName, moveItem }) {
+  const ref = React.useRef(null);
 
-// Initially place all images in S tier
-initialTiers["S"] = initialItems;
+  // Drop target
+  const [, drop] = useDrop({
+    accept: ItemTypes.IMAGE,
+    hover(item, monitor) {
+      if (item.fromTray) return;              // only reorder existing items
+      if (item.tierName !== tierName) return; // only reorder within same tier
 
-export default function TierList() {
-  const [tiers, setTiers] = useState(initialTiers);
+      const dragIndex = item.index;
+      const hoverIndex = index;
+      if (dragIndex === hoverIndex) return;
 
-  const onDragEnd = (result) => {
-    const { source, destination } = result;
+      // Move the item
+      moveItem(dragIndex, hoverIndex);
+      item.index = hoverIndex; // update the dragged item's index
+    },
+  });
 
-    if (!destination) return;
+  // Drag source
+  const [{ isDragging }, drag] = useDrag({
+    type: ItemTypes.IMAGE,
+    item: { src, index, tierName, fromTray: false },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
 
-    const sourceTier = source.droppableId;
-    const destTier = destination.droppableId;
-
-    const sourceItems = Array.from(tiers[sourceTier]);
-    const [movedItem] = sourceItems.splice(source.index, 1);
-
-    const destItems = Array.from(tiers[destTier]);
-    destItems.splice(destination.index, 0, movedItem);
-
-    setTiers({
-      ...tiers,
-      [sourceTier]: sourceItems,
-      [destTier]: destItems,
-    });
-  };
+  drag(drop(ref));
 
   return (
+    <img
+      ref={ref}
+      src={src}
+      alt=""
+      className="tier-item"
+      style={{ opacity: isDragging ? 0.5 : 1 }}
+    />
+  );
+}
+
+export default function TierList({ tiers, setTiers, setTrayImages }) {
+  return (
     <div className="tierlist-container">
-      <DragDropContext onDragEnd={onDragEnd}>
-        {Object.entries(tiers).map(([tierName, items]) => (
-          <div key={tierName} className="tier-row">
-            <div className="tier-label">{tierName}</div>
-            <Droppable droppableId={tierName} direction="horizontal">
-              {(provided) => (
-                <div
-                  className="tier-content"
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                >
-                  {items.map((item, index) => (
-                    <Draggable
-                      key={item.id}
-                      draggableId={item.id}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <img
-                          src={item.url}
-                          alt={`Item ${item.id}`}
-                          className="tier-item"
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        />
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          </div>
-        ))}
-      </DragDropContext>
+      {Object.entries(tiers).map(([tierName, items]) => (
+        <TierRow
+          key={tierName}
+          tierName={tierName}
+          items={items}
+          setTiers={setTiers}
+          setTrayImages={setTrayImages}
+        />
+      ))}
     </div>
   );
 }
+
+function TierRow({ tierName, items, setTiers, setTrayImages }) {
+  // moveItem for reordering within this tier
+  const moveItem = (fromIndex, toIndex) => {
+    setTiers((prev) => {
+      const copy = Array.from(prev[tierName]);
+      const [moved] = copy.splice(fromIndex, 1);
+      copy.splice(toIndex, 0, moved);
+      return { ...prev, [tierName]: copy };
+    });
+  };
+
+  const [{ isOver }, dropRef] = useDrop({
+    accept: ItemTypes.IMAGE,
+    drop: (dragged) => {
+     const { src, fromTray, tierName: fromTier, index: fromIndex } = dragged;
+
+     // 1) From tray → this tier
+     if (fromTray) {
+       setTiers((prev) => ({
+         ...prev,
+         [tierName]: [...prev[tierName], src],
+       }));
+       setTrayImages((prev) => prev.filter((s) => s !== src));
+       return;
+     }
+
+     // 2) From another tier → this tier
+     if (!fromTray && fromTier !== tierName) {
+       // remove from source tier
+       setTiers((prev) => {
+         const srcList = [...prev[fromTier]];
+         srcList.splice(fromIndex, 1);
+
+         // add to destination tier
+         const destList = [...prev[tierName], src];
+         return {
+           ...prev,
+           [fromTier]: srcList,
+           [tierName]: destList,
+         };
+       });
+       return;
+     }
+     // else (fromTier === tierName) we handle reorder in hover, so ignore here
+   },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  });
+
+  return (
+    <div className="tier-row">
+      <div className="tier-label">{tierName}</div>
+      <div
+        ref={dropRef}
+        className="tier-content"
+        style={{ backgroundColor: isOver ? "#444" : undefined }}
+      >
+        {items.map((src, idx) => (
+          <TierItem
+            key={src}
+            src={src}
+            index={idx}
+            tierName={tierName}
+            moveItem={moveItem}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+

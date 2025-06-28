@@ -1,7 +1,9 @@
+// src/App.js
 import React, { useState } from 'react';
 import './style.css';
-import TierList from "./TierList";
-import ImageTray from "./ImageTray";
+import DragDropArea from './DragDropArea';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
 
@@ -13,8 +15,9 @@ function App() {
   };
 
   return (
-    <div className="body d-flex flex-column min-vh-100">
-      <header className="header header_main py-3">
+    <DndProvider backend={HTML5Backend}>
+      <div className="body d-flex flex-column min-vh-100">
+        <header className="header header_main py-3">
         <div className="container-fluid d-flex flex-column flex-md-row justify-content-between align-items-center">
           {/* Logo */}
           <img src="/logo-tier-list_v1.png" className="logo img-fluid" alt="Logo" />
@@ -31,14 +34,7 @@ function App() {
       <p style={{ color: 'white' }}>Hello world!</p>
       <div className="flex-grow-1 container"></div>
 
-      <div className="App">
-        <TierList />
-      </div>
-
-      <div className="ImageTray">
-        <ImageTray />
-      </div>
-
+        <DragDropArea />
       <footer className="footer footer_main py-3">
         <div className="container-fluid d-flex flex-column flex-md-row justify-content-around align-items-center">
           <p>Bartłomiej Gaweł</p>
@@ -46,7 +42,8 @@ function App() {
           <p>Sebastian Bochenek</p>
         </div>
       </footer>
-    </div>
+      </div>
+    </DndProvider>
   );
 }
 
