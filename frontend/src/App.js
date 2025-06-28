@@ -4,6 +4,8 @@ import './style.css';
 import DragDropArea from './DragDropArea';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { useAutoScrollWhileDragging } from './useAutoScrollWhileDragging';
+
 
 function App() {
 
@@ -11,8 +13,8 @@ function App() {
 
   const handleAddImage = () => {
     console.log("Clicked + button!");
-    // We'll add upload & crop logic later
   };
+  useAutoScrollWhileDragging(true);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -35,6 +37,7 @@ function App() {
       <div className="flex-grow-1 container"></div>
 
         <DragDropArea />
+
       <footer className="footer footer_main py-3">
         <div className="container-fluid d-flex flex-column flex-md-row justify-content-around align-items-center">
           <p>Bartłomiej Gaweł</p>

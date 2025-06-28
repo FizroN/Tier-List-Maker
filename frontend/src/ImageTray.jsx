@@ -8,21 +8,15 @@ import CropOverlay from "./CropOverlay";
 
 const ItemTypes = { IMAGE: "image" };
 
-function DraggableImage({ src, index }) {
+function DraggableImage({ image, index }) {
   const [{ isDragging }, dragRef] = useDrag({
     type: ItemTypes.IMAGE,
-    item: { src, fromTray: true },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
+    item: { image, fromTray: true },
+    collect: m => ({ isDragging: m.isDragging() })
   });
   return (
-    <div
-      ref={dragRef}
-      className="image-square"
-      style={{ opacity: isDragging ? 0.5 : 1 }}
-    >
-      <img src={src} alt={`img-${index}`} />
+    <div ref={dragRef} className="image-square" style={{ opacity: isDragging ? 0.5 : 1 }}>
+      <img src={image.src} alt={`img-${index}`} />
     </div>
   );
 }
@@ -44,16 +38,18 @@ export default function ImageTray({ images, setImages }) {
   };
   reader.readAsDataURL(file);
 };
-  const handleCropComplete = (cropped) => {
-    setImages((prev) => [...prev, cropped]);
-    setIsCropping(false);
-  };
+
+  const handleCropComplete = (croppedImage) => {
+  const newImage = { id: `${Date.now()}-${Math.random()}`, src: croppedImage };
+  setImages(prev => [...prev, newImage]);
+  setIsCropping(false);
+};
 
   return (
     <>
       <div className="image-tray">
-        {images.map((src, i) => (
-          <DraggableImage key={src} src={src} index={i} />
+        {images.map((img, i) => (
+          <DraggableImage key={img.id} src={img.src} index={i} image={img} />
         ))}
 
         <div className="image-square add-image" onClick={handleAddImageClick}>
