@@ -27,9 +27,9 @@ const ImageTray = ({ initialImages = [] }) => {
   reader.readAsDataURL(file);
 };
 
-  const handleCropComplete = () => {
+  const handleCropComplete = (croppedImage) => {
   // Replace with actual cropped data later
-  setImages((prev) => [...prev, selectedImage]);
+  setImages((prev) => [...prev, croppedImage]);
   setSelectedImage(null);
   setIsCropping(false);
 };
