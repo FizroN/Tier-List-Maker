@@ -7,26 +7,25 @@
 
 .tier-row {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  align-items: stretch;
+  margin: 5px 0;
 }
 
 .tier-label {
-  width: 50px;
-  color: white;
-  font-weight: bold;
-  font-size: 1.5rem;
+  width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
 }
 
 .tier-content {
+  flex-grow: 1;
   display: flex;
-  background: #333;
-  border-radius: 8px;
-  padding: 10px;
-  flex: 1;
-  min-height: 100px;
+  flex-wrap: wrap;
+  padding: 5px;
+  min-height: 60px;
 }
-
 .tier-item {
   width: 80px;
   height: 80px;
@@ -36,3 +35,32 @@
   border-radius: 4px;
   cursor: grab;
 }
+
+
+
+.tier-left-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  background-color: #222;
+}
+
+.delete-tier-button {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.delete-tier-button:hover {
+  color: #ff4444;
+}
+.tier-row, .tier-content {
+  max-width: 100%;
+  overflow-x: auto;
+  box-sizing: border-box;
+}
+
+

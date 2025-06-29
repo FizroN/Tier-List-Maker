@@ -4,6 +4,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import TierList from "./TierList";
 import ImageTray from "./ImageTray";
+import "./DragDropArea.css";
 
 export default function DragDropArea() {
   // Tray holds the base64 strings of your cropped images
@@ -31,53 +32,90 @@ export default function DragDropArea() {
 
     const [title, setTitle] = useState("My Tier List");
     const [description, setDescription] = useState("A description of my tier list.");
+    const [author, setAuthor] = useState("");
+    const [isLocked, setIsLocked] = useState(false);
 
+    const handleLockAndSubmit = () => {
+  const payload = {
+    title,
+    description,
+    author,
+    tiers,
+  };
+
+  // Optional: show confirmation
+  if (!window.confirm("Are you sure you want to lock and submit? You won’t be able to edit anymore.")) return;
+
+  // POST to backend (adjust URL to match your server route)
+  fetch("/api/submit-tierlist", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Failed to submit");
+      return res.json();
+    })
+    .then(() => {
+      setIsLocked(true);
+    })
+    .catch((err) => {
+      console.error("Submit failed:", err);
+      alert("Failed to submit tier list. Try again.");
+    });
+};
   return (
     <>
       <div className="flex-grow-1 container">
       {/* Pass the tier data + setter so your TierRow drop handlers can update both tiers and tray */}
         <div style={{ marginBottom: "1rem" }}>
+  <div className="tier-metadata">
   <input
     type="text"
+    placeholder="Tier list title"
+    className="tier-title-input"
     value={title}
     onChange={(e) => setTitle(e.target.value)}
-    placeholder="Enter tier list title"
-    style={{
-      width: "100%",
-      fontSize: "1.5rem",
-      padding: "0.5rem",
-      marginBottom: "0.5rem",
-      fontWeight: "bold"
-    }}
+    disabled={isLocked}
   />
   <textarea
+    placeholder="Description (optional)"
     value={description}
     onChange={(e) => setDescription(e.target.value)}
-    placeholder="Enter tier list description"
-    rows={3}
-    style={{
-      width: "100%",
-      padding: "0.5rem",
-      fontSize: "1rem",
-      resize: "vertical"
-    }}
+    disabled={isLocked}
+  />
+  <input
+    type="text"
+    placeholder="Author name"
+    value={author}
+    onChange={(e) => setAuthor(e.target.value)}
+    disabled={isLocked}
   />
 </div>
         <TierList 
             tiers={tiers} 
             setTiers={setTiers} 
             setTrayImages={setTrayImages}
+            disabled={isLocked}
         />
-
-        <button
+        <div className="bottom-buttons">
+          <button
           className="mt-4 px-4 py-2 bg-blue-500 text-black rounded hover:bg-blue-600"
           onClick={handleAddTier}
+          disabled={isLocked}
         >
           + Add Tier
         </button>
+        {!isLocked && (
+        <button onClick={handleLockAndSubmit} className="mt-4 px-4 py-2 bg-black text-white rounded submit-btn">
+          Lock & Submit
+        </button>
+        )}
+        </div>
+      </div>
       </div>
       {/* Pass trayImages + setter so ImageTray can render + remove images */}
-      <ImageTray images={trayImages} setImages={setTrayImages} />
+      <ImageTray images={trayImages} setImages={setTrayImages} disabled={isLocked}/>
     </>
   );
 }

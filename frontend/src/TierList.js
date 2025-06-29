@@ -7,7 +7,7 @@ import "./TierList.css";
 const ItemTypes = { IMAGE: "image" };
 
 // A draggable, sortable image within a tier
-function TierItem({ image, index, tierId, moveItem }) {
+function TierItem({ image, index, tierId, moveItem, disabled }) {
   const ref = React.useRef(null);
 
   // Allow reordering within the same tier
@@ -147,41 +147,52 @@ function TierRow({ tier, setTiers, setTrayImages }) {
   });
 
   return (
-    <div className="tier-row">
-      <div
-        className="tier-label"
-        style={{ backgroundColor: color, color: "#fff", position: "relative" }}
-        onClick={toggleColorPicker}
+  <div className="tier-row">
+    <div className="tier-left-controls">
+      <button
+        className="delete-tier-button"
+        onClick={deleteTier}
+        title="Delete tier"
       >
-        <input
-          type="text"
-          value={name}
-          onChange={changeName}
-          style={{
-            background: "transparent",
-            border: "none",
-            color: "#fff",
-            fontWeight: "bold",
-            fontSize: "1.2em",
-            width: "100%",
-            outline: "none",
-            textAlign: "center",
-          }}
-        />
-        {showColorPicker && (
-          <div style={{ position: "absolute", top: "100%", left: 0, zIndex: 5 }}>
-            <SketchPicker color={color} onChange={changeColor} />
-          </div>
-        )}
-      </div>
-      <div
-        ref={dropRef}
-        className="tier-content"
+        ❌
+      </button>
+    </div>
+
+    <div
+      className="tier-label"
+      style={{ backgroundColor: color, color: "#fff", position: "relative" }}
+      onClick={toggleColorPicker}
+    >
+      <input
+        type="text"
+        value={name}
+        onChange={changeName}
         style={{
-          backgroundColor: isOver ? "#444" : "#333",
+          background: "transparent",
+          border: "none",
+          color: "#fff",
+          fontWeight: "bold",
+          fontSize: "1.2em",
+          width: "100%",
+          outline: "none",
+          textAlign: "center",
         }}
-      >
-        {images.map((img, idx) => (
+      />
+      {showColorPicker && (
+        <div style={{ position: "absolute", top: "100%", left: 0, zIndex: 5 }}>
+          <SketchPicker color={color} onChange={changeColor} />
+        </div>
+      )}
+    </div>
+
+    <div
+      ref={dropRef}
+      className="tier-content"
+      style={{
+        backgroundColor: isOver ? "#444" : "#333",
+      }}
+    >
+      {images.map((img, idx) => (
         <TierItem
           key={img.id}
           image={img}
@@ -189,8 +200,9 @@ function TierRow({ tier, setTiers, setTrayImages }) {
           tierId={tierId}
           moveItem={moveItem}
         />
-))}
-      </div>
+      ))}
     </div>
-  );
+  </div>
+);
+
 }

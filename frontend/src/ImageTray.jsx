@@ -21,7 +21,7 @@ function DraggableImage({ image, index }) {
   );
 }
 
-export default function ImageTray({ images, setImages }) {
+export default function ImageTray({ images, setImages, disabled }) {
   const fileInputRef = useRef(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isCropping, setIsCropping] = useState(false);

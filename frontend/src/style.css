@@ -23,5 +23,12 @@
 }
 .logo{
     max-height: 120px;
-    width: auto;     
+    width: auto;  
+    size: 75%;   
+}
+body {
+  overflow-x: hidden;
+}
+header, footer{
+    max-width: 100%;
 }
