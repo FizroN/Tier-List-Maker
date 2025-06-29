@@ -25,7 +25,7 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
       title TEXT NOT NULL,
       description TEXT,
       author TEXT NOT NULL,
-      snapshotImageUrl TEXT, -- Nowe pole na ścieżkę do obrazu snapshotu
+      snapshotImageUrl TEXT,
       createdAt TEXT DEFAULT CURRENT_TIMESTAMP
     )`);
   }
