@@ -7,16 +7,16 @@
 
 .tier-row {
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
   margin: 5px 0;
 }
 
 .tier-label {
-  width: 120px;
+  width: 4rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 5px;
+  /*padding: 5px;*/
 }
 
 .tier-content {
@@ -24,11 +24,11 @@
   display: flex;
   flex-wrap: wrap;
   padding: 5px;
-  min-height: 60px;
+  min-height: 4.5rem;
 }
 .tier-item {
-  width: 80px;
-  height: 80px;
+  width: 4rem;
+  height: 4rem;
   object-fit: cover;
   margin-right: 10px;
   border: 2px solid #555;
@@ -42,7 +42,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
+  width: 2rem;
   background-color: #222;
 }
 
@@ -59,8 +59,13 @@
 }
 .tier-row, .tier-content {
   max-width: 100%;
-  overflow-x: auto;
+  overflow: visible;
   box-sizing: border-box;
 }
-
-
+.tier-left-controls, .tier-label {
+  align-self: stretch;      /* take on the full height of the tier-row */
+  display: flex;
+  align-items: center;      /* then center their content vertically */
+  justify-content: center;
+  flex-shrink: 0;
+}
