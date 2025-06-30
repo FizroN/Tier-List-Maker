@@ -55,11 +55,15 @@ export default function DragDropArea() {
         throw new Error("Could not find tier list element to capture.");
       }
 
+      tierListRef.current.classList.add('locked-snapshot');
+
+
       const canvas = await html2canvas(tierListRef.current, {
         useCORS: true, // Ważne, jeśli masz obrazy z różnych domen
         allowTaint: true, // Pozwala na "zanieczyszczone" obrazy z innych domen (może wymagać useCORS)
         scale: 2, // Zwiększ skalę dla lepszej jakości obrazu
         logging: false, // Wyłącz logowanie html2canvas do konsoli
+        backgroundColor: '#2a2a2a',
       });
 
       // Konwertuj canvas na Blob (obiekt pliku)

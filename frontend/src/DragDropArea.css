@@ -14,3 +14,15 @@
   display: flex;
   justify-content: space-around;
 }
+/* only snapshot wrapper needs this */
+.tierlist-snapshot-area.locked-snapshot {
+  /* make it shrink‑to‑fit its contents */
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+/* hide any delete buttons when we have that class */
+.tierlist-snapshot-area.locked-snapshot .delete-tier-button {
+  display: none !important;
+}
