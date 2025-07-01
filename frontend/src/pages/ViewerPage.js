@@ -29,7 +29,7 @@ export default function ViewerPage() {
   if (loading) return <p className="viewer-loading">Loading tier list…</p>;
   if (error)   return <p className="viewer-error">Error: {error}</p>;
   if (!list)  return <p className="viewer-error">Tier list not found.</p>;
-
+  console.log(list);
   return (
     <div className="viewer-page">
       <h1 className="viewer-title">{list.title}</h1>
@@ -43,10 +43,10 @@ export default function ViewerPage() {
       <div className="viewer-snapshot">
         {list.snapshotImageUrl ? (
           <img
-            src={`http://localhost:2137${list.snapshotImageUrl}`}
+            src={list.snapshotImageUrl}
             alt={`${list.title} snapshot`}
             className="img-fluid"
-            />
+          />
         ) : (
           <p>No snapshot available.</p>
         )}
