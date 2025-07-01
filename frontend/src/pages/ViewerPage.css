@@ -1,0 +1,37 @@
+/* src/pages/ViewerPage.css */
+.viewer-page {
+  padding: 2rem;
+  color: #eee;
+}
+
+.viewer-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.viewer-meta {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.viewer-description {
+  font-size: 1rem;
+  color: #ccc;
+  margin-bottom: 1.5rem;
+}
+
+.viewer-snapshot {
+  background: #222;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.viewer-snapshot img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}

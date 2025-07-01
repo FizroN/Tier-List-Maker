@@ -67,6 +67,26 @@ app.get('/api/tierlists', (req, res) => { // Zmieniono z /api/lists na /api/tier
     res.json(rows);
   });
 });
+// GET /api/lists/:id - Pobierz konkretną listę
+app.get('/api/tierlists/:id', (req, res) => {
+  const { id } = req.params;
+  console.log('Fetching tierlist with id=', id); 
+  db.get(
+    'SELECT * FROM tierlists WHERE id = ?',
+    [id],
+    (err, row) => {
+      if (err) {
+        console.error('DB error:', err.message);
+        return res.status(500).json({ message: err.message });
+      }
+      if (!row) {
+        console.log(`No row found for id=${id}`); 
+        return res.status(404).json({ message: 'Tier list not found' });
+      }
+      res.json(row);
+    }
+  );
+});
 
 // POST /api/tierlists - Dodaj nową listę z obrazem snapshotu
 // Użyj upload.single('snapshotImage'), gdzie 'snapshotImage' to nazwa pola z plikiem w FormData

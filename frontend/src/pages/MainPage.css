@@ -1,0 +1,53 @@
+/* src/pages/MainPage.css */
+.main-page {
+  padding: 2rem;        /* or whatever you like */
+  background-color: #1a1a1a; /* if you need a different bg */
+  color: white;
+  /* any other page‑specific overrides */
+}
+
+.tierlist-bars {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tierlist-bar + .tierlist-bar {
+  margin-top: 1rem;
+}
+
+.tierlist-bar {
+  background: #222;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.bar-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  color: #eee;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.bar-link:hover {
+  background: #333;
+}
+
+.bar-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.bar-author {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.main-loading,
+.main-error {
+  padding: 2rem;
+  color: #ccc;
+}
