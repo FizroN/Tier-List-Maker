@@ -16,12 +16,12 @@ export default function DragDropArea() {
 
   // Tiers holds an order of images per tier name
   const [tiers, setTiers] = useState([
-  { id: 'S', name: 'S', color: '#ff0000', images: [] },
-  { id: 'A', name: 'A', color: '#ff7f00', images: [] },
-  { id: 'B', name: 'B', color: '#ffff00', images: [] },
-  { id: 'C', name: 'C', color: '#00ff00', images: [] },
-  { id: 'D', name: 'D', color: '#00bfff', images: [] },
-  { id: 'F', name: 'F', color: '#8a2be2', images: [] },
+  { id: 'S', name: 'S', color: '#ff2424', images: [] },
+  { id: 'A', name: 'A', color: '#ff9a35', images: [] },
+  { id: 'B', name: 'B', color: '#ffcc33', images: [] },
+  { id: 'C', name: 'C', color: '#ffff1f', images: [] },
+  { id: 'D', name: 'D', color: '#2eff2e', images: [] },
+  { id: 'F', name: 'F', color: '#30ffff', images: [] },
 ]);
   const handleAddTier = () => {
   const newId = `custom-${Date.now()}`; // unique ID
