@@ -58,3 +58,50 @@ Navigate to the backend directory and install dependencies:
 ```bash
 cd backend
 npm install
+```
+
+Start the server (runs on port 2137 by default):
+```
+node server.js
+```
+Note: The server will automatically create the tierlists.db database and an uploads/ folder upon the first run.
+
+### 2. Frontend Setup
+Open a new terminal, navigate to the frontend directory, and install dependencies:
+
+```
+cd frontend
+npm install
+```
+
+Start the React development server:
+```
+npm start
+```
+The application will launch at http://localhost:3000.
+
+# 📡 API Reference
+The backend exposes the following REST endpoints:
+```
+GET /api/tierlists - Retrieve all saved tier lists.
+
+GET /api/tierlists/:id - Retrieve details of a specific tier list.
+
+POST /api/tierlists - Save a new tier list (accepts multipart/form-data with title, author, description, and snapshotImage).
+```
+📂 Project Structure
+Bash
+Tier-List-Maker/
+├── backend/
+│   ├── uploads/         # Stored images and snapshots
+│   ├── server.js        # Express application entry point
+│   └── tierlists.db     # SQLite database file
+├── frontend/
+│   ├── src/
+│   │   ├── components/  # Reusable UI components
+│   │   ├── pages/       # CreatorPage, MainPage, ViewerPage
+│   │   └── App.js       # Main routing logic
+│   └── public/
+└── Screenshots/         # Preview images for documentation
+📄 License
+This project is open-source and available for educational purposes.
