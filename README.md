@@ -89,8 +89,8 @@ GET /api/tierlists/:id - Retrieve details of a specific tier list.
 
 POST /api/tierlists - Save a new tier list (accepts multipart/form-data with title, author, description, and snapshotImage).
 ```
-📂 Project Structure
-Bash
+# 📂 Project Structure
+```bash
 Tier-List-Maker/
 ├── backend/
 │   ├── uploads/         # Stored images and snapshots
@@ -103,5 +103,6 @@ Tier-List-Maker/
 │   │   └── App.js       # Main routing logic
 │   └── public/
 └── Screenshots/         # Preview images for documentation
-📄 License
+```
+# 📄 License
 This project is open-source and available for educational purposes.
